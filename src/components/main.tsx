@@ -162,11 +162,9 @@ const Main: React.FC<MainProps> = ({ imgSrc }) => {
               <h1> T O D O</h1>
               <span hidden={!toggel} onClick={SwitchTheme}>
                 <WbSunnyIcon className={styles.themeSun}></WbSunnyIcon>
-                <p>Dark Theme</p>
               </span>
               <span hidden={toggel} onClick={SwitchTheme}>
                 <NightsStayIcon className={styles.themeMoon} />
-                <p>Light Theme</p>
               </span>
             </div>
           </div>
