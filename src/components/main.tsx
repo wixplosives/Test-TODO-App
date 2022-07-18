@@ -182,7 +182,6 @@ const Main: React.FC<MainProps> = ({ imgSrc }) => {
                 id="input"
                 onKeyDown={handelInput}
                 autoComplete="off"
-                autoFocus
                 onChange={(e) => setInputState(e.target.value)}
               />
             </div>
