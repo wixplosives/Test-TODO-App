@@ -8,12 +8,12 @@ import store from "../../../Redux/store";
 import img from "../../../Assets/img/background.jpg";
 
 export default createBoard({
-    name: "App Board",
+    name: "sunset backgroound",
     Board: () => (
         <Provider store={store}>
             {" "}
             <ApplyTheme>
-                <App imgSrc={img} />
+                <App imgSrc="https://wallpaperaccess.com/full/6069299.jpg" />
             </ApplyTheme>{" "}
         </Provider>
     ),
