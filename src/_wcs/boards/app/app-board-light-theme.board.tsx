@@ -8,7 +8,7 @@ import store from "../../../Redux/store";
 import img from "../../../Assets/img/background.jpg";
 
 export default createBoard({
-    name: "App Board - light theme ",
+    name: "App Board - with items",
     Board: () => (
         <Provider store={store}>
             {" "}
