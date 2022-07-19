@@ -175,6 +175,7 @@ const Main: React.FC<MainProps> = ({ imgSrc }) => {
                             <AddCircleOutlineIcon
                                 className={inputState ? styles.pen : styles.disabledButton}
                                 onClick={handelInput}
+                                fontSize="default"
                             />
                             <input
                                 value={inputState}
