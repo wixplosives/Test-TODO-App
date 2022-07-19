@@ -6,12 +6,12 @@ import { RootState } from "../Redux/store";
 import { v4 as uuid } from "uuid";
 import { toast } from "react-toastify";
 import {
-  Grid,
-  Hidden,
-  List,
-  ListItem,
-  ListItemText,
-  Checkbox,
+    Grid,
+    Hidden,
+    List,
+    ListItem,
+    ListItemText,
+    Checkbox,
 } from "@material-ui/core";
 import { useState } from "react";
 
@@ -21,264 +21,266 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import ClearIcon from "@material-ui/icons/Clear";
 
 export interface MainProps {
-  imgSrc: string;
+    imgSrc: string;
 }
 
 const Main: React.FC<MainProps> = ({ imgSrc }) => {
-  var dispatch = useDispatch();
-  var toggel = useSelector((state: RootState) => state.Theme.toggel);
+    var dispatch = useDispatch();
+    var toggel = useSelector((state: RootState) => state.Theme.toggel);
 
-  interface listType {
-    id: string;
-    task: string;
-    completed: boolean;
-  }
-
-  var get: string | null = localStorage.getItem("list");
-  var Data: listType[];
-  var countleft: number;
-  if (get) {
-    Data = JSON.parse(get);
-    countleft = 0;
-    Data.forEach((each) => {
-      !each.completed && countleft++;
-    });
-  } else {
-    Data = [];
-    countleft = 0;
-  }
-
-  //hooks
-  const [list, setlist] = React.useState(Data);
-  const [active, setActive] = React.useState(false);
-  const [completed, setCompleted] = React.useState(false);
-  const [All, setAll] = React.useState(true);
-
-  // theme toggle
-  var SwitchTheme = () => {
-    if (!toggel) dispatch(set_dark());
-    else dispatch(set_light());
-  };
-
-  var handelInput = (e: any) => {
-    if (e.key === "Enter" || e.type === "click") {
-      let input = document.querySelector<HTMLInputElement>("#input")!.value;
-      document.querySelector<HTMLInputElement>("#input")!.value = "";
-      if (input === "")
-        return toast.error("No Task Entered", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-
-      var newTask: listType = {
-        id: uuid(),
-        task: input[0].toUpperCase() + input.substring(1),
-        completed: false,
-      };
-      Data.push(newTask);
-
-      save(Data);
+    interface listType {
+        id: string;
+        task: string;
+        completed: boolean;
     }
-  };
 
-  var deleteTask = (id: string) => {
-    var newDel = Data.filter((each) => each.id !== id);
-    save(newDel);
-  };
+    var get: string | null = localStorage.getItem("list");
+    var Data: listType[];
+    var countleft: number;
+    if (get) {
+        Data = JSON.parse(get);
+        countleft = 0;
+        Data.forEach((each) => {
+            !each.completed && countleft++;
+        });
+    } else {
+        Data = [];
+        countleft = 0;
+    }
 
-  var handelDone = (id: string) => {
-    var checkedData = Data.map((each) => {
-      if (each.id === id) each.completed = !each.completed;
-      return each;
-    });
-    save(checkedData);
-  };
+    //hooks
+    const [list, setlist] = React.useState(Data);
+    const [active, setActive] = React.useState(false);
+    const [completed, setCompleted] = React.useState(false);
+    const [All, setAll] = React.useState(true);
 
-  var showAll = () => {
-    setAll(true);
-    setActive(false);
-    setCompleted(false);
-  };
+    // theme toggle
+    var SwitchTheme = () => {
+        if (!toggel) dispatch(set_dark());
+        else dispatch(set_light());
+    };
 
-  var showACtive = () => {
-    setAll(false);
-    setActive(true);
-    setCompleted(false);
-  };
+    var handelInput = (e: any) => {
+        if (e.key === "Enter" || e.type === "click") {
+            let input = document.querySelector<HTMLInputElement>("#input")!.value;
+            document.querySelector<HTMLInputElement>("#input")!.value = "";
+            if (input === "")
+                return toast.error("No Task Entered", {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
 
-  var showDone = () => {
-    setAll(false);
-    setActive(false);
-    setCompleted(true);
-  };
+            var newTask: listType = {
+                id: uuid(),
+                task: input[0].toUpperCase() + input.substring(1),
+                completed: false,
+            };
+            Data.push(newTask);
 
-  var clearDone = () => {
-    var allClear = Data.filter((each) => !each.completed);
-    save(allClear);
-  };
+            save(Data);
+        }
+    };
 
-  var save = (Data: listType[]) => {
-    localStorage.setItem("list", JSON.stringify(Data));
-    setlist([...Data]);
-  };
+    var deleteTask = (id: string) => {
+        var newDel = Data.filter((each) => each.id !== id);
+        save(newDel);
+    };
 
-  const [inputState, setInputState] = useState<string>();
+    var handelDone = (id: string) => {
+        var checkedData = Data.map((each) => {
+            if (each.id === id) each.completed = !each.completed;
+            return each;
+        });
+        save(checkedData);
+    };
 
-  var ItemProp = ({ each }) => {
+    var showAll = () => {
+        setAll(true);
+        setActive(false);
+        setCompleted(false);
+    };
+
+    var showACtive = () => {
+        setAll(false);
+        setActive(true);
+        setCompleted(false);
+    };
+
+    var showDone = () => {
+        setAll(false);
+        setActive(false);
+        setCompleted(true);
+    };
+
+    var clearDone = () => {
+        var allClear = Data.filter((each) => !each.completed);
+        save(allClear);
+    };
+
+    var save = (Data: listType[]) => {
+        localStorage.setItem("list", JSON.stringify(Data));
+        setlist([...Data]);
+    };
+
+    const [inputState, setInputState] = useState<string>();
+
+    var ItemProp = ({ each }) => {
+        return (
+            <ListItem className={styles.listItem}>
+                <Checkbox
+                    edge="start"
+                    className={styles.listcheck}
+                    color="primary"
+                    checked={each.completed}
+                    onChange={() => handelDone(each.id)}
+                />
+                <ListItemText hidden={each.completed} className={styles.listTxt}>
+                    {each.task}
+                </ListItemText>
+                <ListItemText hidden={!each.completed} className={styles.listTxtDone}>
+                    {each.task}
+                </ListItemText>
+                <ClearIcon
+                    className={styles.clear}
+                    onClick={() => deleteTask(each.id)}
+                />
+            </ListItem>
+        );
+    };
     return (
-      <ListItem className={styles.listItem}>
-        <Checkbox
-          edge="start"
-          className={styles.listcheck}
-          color="primary"
-          checked={each.completed}
-          onChange={() => handelDone(each.id)}
-        />
-        <ListItemText hidden={each.completed} className={styles.listTxt}>
-          {each.task}
-        </ListItemText>
-        <ListItemText hidden={!each.completed} className={styles.listTxtDone}>
-          {each.task}
-        </ListItemText>
-        <ClearIcon
-          className={styles.clear}
-          onClick={() => deleteTask(each.id)}
-        />
-      </ListItem>
-    );
-  };
-  return (
-    <>
-      <img src={imgSrc} alt="background" className="wrapperBack" />
-      <div className="toplayer">
-        <Grid container direction="column" alignContent="center" spacing={1}>
-          <div className={styles.container}>
-            <div className={styles.heading}>
-              <h1> T O D O</h1>
-              <span hidden={!toggel} onClick={SwitchTheme}>
-                <WbSunnyIcon className={styles.themeSun}></WbSunnyIcon>
-              </span>
-              <span hidden={toggel} onClick={SwitchTheme}>
-                <NightsStayIcon className={styles.themeMoon} />
-              </span>
-            </div>
-          </div>
-
-          <div className={styles.container}>
-            <div className={styles.input}>
-              <AddCircleOutlineIcon
-                className={inputState ? styles.pen : styles.disabledButton}
-                onClick={handelInput}
-              />
-              <input
-                value={inputState}
-                type="text"
-                placeholder="Create a new todo ..."
-                id="input"
-                onKeyDown={handelInput}
-                autoComplete="off"
-                onChange={(e) => setInputState(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <div className={styles.container}>
-            <List className={styles.list}>
-              {list.length > 0 ? (
-                list.map((each) => {
-                  if (active && !each.completed)
-                    return <ItemProp each={each} key={each.id} />;
-                  if (completed && each.completed)
-                    return <ItemProp each={each} key={each.id} />;
-                  if (All) return <ItemProp each={each} key={each.id} />;
-                  return null;
-                })
-              ) : (
-                <ListItem>
-                  <ListItemText className={styles.listTxt}>
-                    {" "}
-                    No Task available
-                  </ListItemText>
-                </ListItem>
-              )}
-
-              {list.length > 0 && (
-                <div className={styles.nav}>
-                  <p> {countleft} task left</p>
-                  <Hidden smDown>
-                    <div className={styles.navItem}>
-                      <p className={All ? `all` : ""} onClick={showAll}>
-                        {" "}
-                        All
-                      </p>
-                      <p
-                        className={active ? `active` : ""}
-                        onClick={showACtive}
-                      >
-                        {" "}
-                        Active
-                      </p>
-                      <p
-                        className={completed ? `active` : ""}
-                        onClick={showDone}
-                      >
-                        {" "}
-                        completed
-                      </p>
+        <>
+            <img src={imgSrc} alt="background" className="wrapperBack" />
+            <div className="toplayer">
+                <Grid container direction="column" alignContent="center" spacing={1}>
+                    <div className={styles.container}>
+                        <div className={styles.heading}>
+                            <h1> T O D O</h1>
+                            <div />
+                            <span hidden={!toggel} onClick={SwitchTheme}>
+                                <WbSunnyIcon className={styles.themeSun}></WbSunnyIcon>
+                            </span>
+                            <span hidden={toggel} onClick={SwitchTheme}>
+                                <NightsStayIcon className={styles.themeMoon} />
+                            </span>
+                        </div>
                     </div>
-                  </Hidden>
-                  <p className="cursor" onClick={clearDone}>
-                    clear completed
-                  </p>
-                </div>
-              )}
-            </List>
-          </div>
 
-          {list.length > 0 && (
-            <div className={styles.container}>
-              <div className={styles.navMob}>
-                <Hidden mdUp>
-                  <div className={styles.navItemMob}>
-                    <p className={All ? `active` : ""} onClick={showAll}>
-                      {" "}
-                      All
-                    </p>
-                    <p className={active ? `active` : ""} onClick={showACtive}>
-                      {" "}
-                      Active
-                    </p>
-                    <p className={completed ? `active` : ""} onClick={showDone}>
-                      {" "}
-                      completed
-                    </p>
-                  </div>
-                </Hidden>
-              </div>
+                    <div className={styles.container}>
+                        <div className={styles.input}>
+                            <AddCircleOutlineIcon
+                                className={inputState ? styles.pen : styles.disabledButton}
+                                onClick={handelInput}
+                            />
+                            <input
+                                value={inputState}
+                                type="text"
+                                placeholder="Create a new todo ..."
+                                id="input"
+                                onKeyDown={handelInput}
+                                autoComplete="off"
+                                onChange={(e) => setInputState(e.target.value)}
+                            />
+                        </div>
+                    </div>
+
+                    <div className={styles.container}>
+                        <List className={styles.list}>
+                            {list.length > 0 ? (
+                                list.map((each) => {
+                                    if (active && !each.completed)
+                                        return <ItemProp each={each} key={each.id} />;
+                                    if (completed && each.completed)
+                                        return <ItemProp each={each} key={each.id} />;
+                                    if (All) return <ItemProp each={each} key={each.id} />;
+                                    return null;
+                                })
+                            ) : (
+                                <ListItem>
+                                    <ListItemText className={styles.listTxt}>
+                                        {" "}
+                                        No Task available
+                                    </ListItemText>
+                                </ListItem>
+                            )}
+
+                            {list.length > 0 && (
+                                <div className={styles.nav}>
+                                    <Hidden smDown={true}>
+                                        <div className={styles.navItem}>
+                                            <p className={All ? `all` : ""} onClick={showAll}>
+                                                {" "}
+                                                All
+                                            </p>
+                                            <p
+                                                className={active ? `active` : ""}
+                                                onClick={showACtive}
+                                            >
+                                                {" "}
+                                                Active
+                                            </p>
+                                            <p
+                                                className={completed ? `active` : ""}
+                                                onClick={showDone}
+                                            >
+                                                {" "}
+                                                completed
+                                            </p>
+                                        </div>
+                                    </Hidden>
+                                    <div className={styles.secondaryFooter}>
+                                        <p> {countleft} task left</p>
+                                        <p className="cursor" onClick={clearDone}>
+                                            clear completed
+                                        </p>
+                                    </div></div>
+                            )}
+                        </List>
+                    </div>
+
+                    {list.length > 0 && (
+                        <div className={styles.container}>
+                            <div className={styles.navMob}>
+                                <Hidden mdUp>
+                                    <div className={styles.navItemMob}>
+                                        <p className={All ? `active` : ""} onClick={showAll}>
+                                            {" "}
+                                            All
+                                        </p>
+                                        <p className={active ? `active` : ""} onClick={showACtive}>
+                                            {" "}
+                                            Active
+                                        </p>
+                                        <p className={completed ? `active` : ""} onClick={showDone}>
+                                            {" "}
+                                            completed
+                                        </p>
+                                    </div>
+                                </Hidden>
+                            </div>
+                        </div>
+                    )}
+
+                    <div className={styles.footer}>
+                        <p>
+                            Made by{" "}
+                            <a
+                                href="https://www.instagram.com/developer_dev/?hl=en"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                Chandrasekhar{" "}
+                            </a>
+                        </p>
+                    </div>
+                </Grid>
             </div>
-          )}
-
-          <div className={styles.footer}>
-            <p>
-              Made by{" "}
-              <a
-                href="https://www.instagram.com/developer_dev/?hl=en"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Chandrasekhar{" "}
-              </a>
-            </p>
-          </div>
-        </Grid>
-      </div>
-    </>
-  );
+        </>
+    );
 };
 
 export default Main;
