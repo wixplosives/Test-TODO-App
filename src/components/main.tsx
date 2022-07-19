@@ -227,9 +227,7 @@ const Main: React.FC<MainProps> = ({ imgSrc }) => {
                                                 className={completed ? `active` : ""}
                                                 onClick={showDone}
                                             >
-                                                {" "}
-                                                completed
-                                            </p>
+                                                {" "}Completed</p>
                                         </div>
                                     </Hidden>
                                     <div className={styles.secondaryFooter}>
